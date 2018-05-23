@@ -3,15 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
+	private static class PlayerAnimation {
+		static Direction oldDirection;
+		public static void SetDirectionAnimation(Animator animator, Direction direction) {
+			if(direction != oldDirection)
+				animator.SetBool("isStart", true);
+			switch (direction) {
+				case Direction.Left: animator.SetTrigger("left"); break;
+				case Direction.Right: animator.SetTrigger("right"); break;
+				case Direction.Down: animator.SetTrigger("down"); break;
+				case Direction.Up: animator.SetTrigger("up"); break;
+			}
+			oldDirection = direction;
+		}
+		public static void SetAnimationFlags(Animator animator, bool isCasting, bool isMoving) {
+			animator.SetBool("isCasting", isCasting);
+			animator.SetBool("isMoving", isMoving);
+		}
+	}
 	private enum Direction { Left, Right, Down, Up }
 	private Direction direction;
 	public float catchClickTime;
 	private float lastClickTime = 0;
 	private bool isDoubleClicked = false;
-
+	private Animator animator;
 	private Spell spell;
 	
 	void Awake() {
+		animator = GetComponent<Animator>();
 		spell = GetComponent<Spell>();
 	}
 	void SetDirection(float x, float y) {
@@ -27,7 +46,7 @@ public class Player : MonoBehaviour {
 		var touchPos = GetMouseWorldPos();
 		Vector3 directionVector = touchPos - transform.position;
 		SetDirection(directionVector.x, directionVector.y);
-		SetSprite();
+		
 		transform.position = Vector3.Lerp(transform.position, touchPos, Time.deltaTime);
 	}
 	void CatchDoubleClick() {
@@ -42,9 +61,6 @@ public class Player : MonoBehaviour {
 		mousePos.z = 0;
 		return mousePos;
 	}
-	void SetSprite() {
-		//TODO: 
-	}
 	void Update() {
 		if (Input.GetMouseButtonDown(0)) {
 			CatchDoubleClick();
@@ -53,6 +69,9 @@ public class Player : MonoBehaviour {
 		if (Input.GetMouseButtonUp(0)) {
 			isDoubleClicked = false;
 		}
+		PlayerAnimation.SetDirectionAnimation(animator, direction);
+		PlayerAnimation.SetAnimationFlags(animator, isDoubleClicked,!isDoubleClicked);
+
 	}
 	void FixedUpdate () {
 		if(Input.GetMouseButton(0)) {
