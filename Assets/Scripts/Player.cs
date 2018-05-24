@@ -6,8 +6,8 @@ public class Player : MonoBehaviour {
 	private static class PlayerAnimation {
 		static Direction oldDirection;
 		public static void SetDirectionAnimation(Animator animator, Direction direction) {
-			if(direction != oldDirection)
-				animator.SetBool("isStart", true);
+			if (direction != oldDirection)
+				animator.SetTrigger("clear");
 			switch (direction) {
 				case Direction.Left: animator.SetTrigger("left"); break;
 				case Direction.Right: animator.SetTrigger("right"); break;
@@ -21,8 +21,8 @@ public class Player : MonoBehaviour {
 			animator.SetBool("isMoving", isMoving);
 		}
 	}
-	private enum Direction { Left, Right, Down, Up }
-	private Direction direction;
+	public enum Direction { Left, Right, Down, Up }
+	public Direction direction;
 	public float catchClickTime;
 	private float lastClickTime = 0;
 	private bool isDoubleClicked = false;

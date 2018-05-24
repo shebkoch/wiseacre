@@ -161,7 +161,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &61526611937280284
 BoxCollider2D:
@@ -241,6 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff5e95610ce33bb48952785bd3a97d22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  direction: 0
   catchClickTime: 0.4
 --- !u!120 &120837095539871470
 LineRenderer:

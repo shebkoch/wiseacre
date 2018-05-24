@@ -66,7 +66,7 @@ public class LevelBridge : Singleton<LevelBridge>
 		trapFree = possibleDirection[Random.Range(0, possibleDirection.Count)];
 	}
 	void TrapDamage() {
-		if (playerDirection != trapFree) print(-1);
+		if (playerDirection != trapFree) PlayerParametersController.Instance.Health--;//todo
 	}
 	void Update () {
 		if (!player) {

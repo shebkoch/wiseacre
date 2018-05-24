@@ -53,6 +53,9 @@ public class LevelGenerator : Singleton<LevelGenerator> {
 		levelElements = new List<LevelElements>() { floorClass, doorClass, borderClass, borderEdgeClass, playerClass, enemyClass, obstacleClass };
 	}
 	public void Generate() {
+		curLevelNumber++;
+		height += curLevelNumber * 2;
+		width += curLevelNumber * 2;//todo
 		level = new LevelElement[height, width];
 		foreach (var element in levelElements) {
 			element.SetMap(level, height, width, curLevelNumber);
