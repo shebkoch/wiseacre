@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class LevelBridge : Singleton<LevelBridge>
 {
 	public enum Dir
@@ -15,6 +14,8 @@ public class LevelBridge : Singleton<LevelBridge>
 	private int mapWidth;
 	public int mapOffset;
 	private bool isInitialized = false;
+	private List<GameObject> enemies;
+	private List<GameObject> doors;
 
 	public Dir trapFree;
 	void TeleportPlayer() {	 //Reverse player position
@@ -32,6 +33,10 @@ public class LevelBridge : Singleton<LevelBridge>
 		mapHeight = LevelGenerator.Instance.height;
 		mapWidth = LevelGenerator.Instance.width;
 		player = GameObject.FindGameObjectWithTag("Player");
+		doors = new List<GameObject>();
+		enemies = new List<GameObject>();
+		doors.AddRange(GameObject.FindGameObjectsWithTag("Door"));
+		enemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
 		isInitialized = true;
 	}
 	void SetPlayerDirection() {
@@ -68,12 +73,23 @@ public class LevelBridge : Singleton<LevelBridge>
 	void TrapDamage() {
 		if (playerDirection != trapFree) PlayerParametersController.Instance.Health--;//todo
 	}
+	public void OpenDoors() {
+		if (enemies.Count > 0) {
+			foreach (var enemy in enemies) {
+				if (enemy.GetComponent<EnemyLogic>().IsAlive()) return;
+			}
+			foreach (var door in doors) {
+				door.SetActive(false);
+			}
+		}
+	}
 	void Update () {
 		if (!player) {
 			Init();
 			TeleportPlayer();
 		}
 		if (isInitialized) {
+			OpenDoors();
 			SetPlayerDirection();
 		}
 		if (isBridgeBuild) {

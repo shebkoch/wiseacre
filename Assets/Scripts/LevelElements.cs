@@ -86,8 +86,9 @@ public class Enemies : LevelElements
 		}
 	}
 	protected override void PlaceElement(int y, int x) {
-		Instantiate(element, new Vector3(x * elementsDistance, y * elementsDistance, element.transform.position.z),
+		var enemy = Instantiate(element, new Vector3(x * elementsDistance, y * elementsDistance, element.transform.position.z),
 					Quaternion.identity, parent);
+		enemy.tag = "Enemy";
 	}
 }
 
