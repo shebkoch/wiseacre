@@ -6,8 +6,13 @@ public class Player : MonoBehaviour {
 	private static class PlayerAnimation {
 		static Direction oldDirection;
 		public static void SetDirectionAnimation(Animator animator, Direction direction) {
-			if (direction != oldDirection)
+			if (direction != oldDirection) {
 				animator.SetTrigger("clear");
+				animator.ResetTrigger("left");
+				animator.ResetTrigger("right");
+				animator.ResetTrigger("down");
+				animator.ResetTrigger("up");
+			}
 			switch (direction) {
 				case Direction.Left: animator.SetTrigger("left"); break;
 				case Direction.Right: animator.SetTrigger("right"); break;
@@ -24,6 +29,7 @@ public class Player : MonoBehaviour {
 	public enum Direction { Left, Right, Down, Up }
 	public Direction direction;
 	public float catchClickTime;
+	public float speed;
 	private float lastClickTime = 0;
 	private bool isDoubleClicked = false;
 	private Animator animator;
@@ -47,7 +53,7 @@ public class Player : MonoBehaviour {
 		Vector3 directionVector = touchPos - transform.position;
 		SetDirection(directionVector.x, directionVector.y);
 		
-		transform.position = Vector3.Lerp(transform.position, touchPos, Time.deltaTime);
+		transform.position = Vector3.MoveTowards(transform.position, touchPos, speed * Time.deltaTime);
 	}
 	void CatchDoubleClick() {
 		if (Time.time - lastClickTime < catchClickTime) {

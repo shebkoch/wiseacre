@@ -224,10 +224,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   line: {fileID: 120837095539871470}
-  lineStartColor: {r: 0.023529412, g: 0.75686276, b: 1, a: 1}
+  lineStartColor: {r: 0.3865701, g: 0.9323245, b: 0.9558824, a: 1}
   lineEndColor: {r: 1, g: 1, b: 1, a: 1}
+  lineAcceptColor: {r: 0.9264706, g: 0.5479895, b: 0.20436849, a: 1}
   lineStep: 0.3
   disappearSpeed: 6
+  manaCost: 5
   minLoopDetection: 10
   loopDistance: 0.5
 --- !u!114 &114479703140897208
@@ -243,6 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 0
   catchClickTime: 0.4
+  speed: 3
 --- !u!120 &120837095539871470
 LineRenderer:
   m_ObjectHideFlags: 1

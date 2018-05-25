@@ -13,11 +13,16 @@ public class UIController : Singleton<UIController> {
 	public List<Image> hearts;
 	[Space(10)]
 	public GameObject endMenu;
+	[Space(10)]
+	public Text manaText;
 	public void SetHpImage(int hp) {
 		for (int i = 0; i < hearts.Count; i++) {
 			if (i < hp) hearts[i].gameObject.SetActive(true);
 			else hearts[i].gameObject.SetActive(false);
 		}
+	}
+	public void SetManaImage(int mana) {
+		manaText.text = mana + "";
 	}
 	public void StartFade() {
 		fade.color = fadeColor;

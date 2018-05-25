@@ -1,72 +1,103 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum Direction
+{
+	Left, Right, Down, Up
+};
 public class LevelBridge : Singleton<LevelBridge>
 {
-	public enum Dir
-	{
-		left, right, down, up
-	};
-	public Dir playerDirection;
-	public bool isBridgeBuild = false;
+	public int manaToLevel;
+	private Direction playerDirection;
+	private bool isBridgeBuild = false;
 	private GameObject player;
 	private int mapHeight;
 	private int mapWidth;
 	public int mapOffset;
 	private bool isInitialized = false;
-
-	public Dir trapFree;
-	void TeleportPlayer() {	 //Reverse player position
-		Vector3 playerPos = Vector3.zero;
-		switch (playerDirection) {
-			case Dir.left:	playerPos = new Vector3(mapWidth , mapHeight / 2); break;
-			case Dir.right:	playerPos = new Vector3(0 , mapHeight / 2); break;
-			case Dir.down:	playerPos = new Vector3(mapWidth / 2, mapHeight); break;
-			case Dir.up:	playerPos = new Vector3(mapWidth / 2, 0); break;
-		}
+	private List<GameObject> enemies;
+	private List<GameObject> doors;
+	private bool isDoorOpen = false;
+	public Direction trapFree;
+	void TeleportPlayer() {  //Reverse player position
+		Vector3 playerPos = DirToVector(playerDirection);
 		playerPos.z = player.transform.position.z;
 		player.transform.position = playerPos;
+	}
+	public Vector2 DirToVector(Direction dir) {
+		Vector2 result = new Vector2();
+		switch (dir) {
+			case Direction.Left:	result = new Vector3(mapWidth - 1, mapHeight / 2);	break;
+			case Direction.Right:	result = new Vector3(0, mapHeight / 2); break;
+			case Direction.Down:	result = new Vector3(mapWidth / 2, mapHeight); break;
+			case Direction.Up:		result = new Vector3(mapWidth / 2, 0); break;
+		}
+		return result;
 	}
 	public void Init() {
 		mapHeight = LevelGenerator.Instance.height;
 		mapWidth = LevelGenerator.Instance.width;
 		player = GameObject.FindGameObjectWithTag("Player");
+		doors = new List<GameObject>();
+		enemies = new List<GameObject>();
+		doors.AddRange(GameObject.FindGameObjectsWithTag("Door"));
+		enemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
 		isInitialized = true;
 	}
 	void SetPlayerDirection() {
 		var playerPos = player.transform.position;
 		if (playerPos.y > mapHeight + mapOffset) {
-			playerDirection = Dir.up;
+			playerDirection = Direction.Up;
 			isBridgeBuild = true;
 		}
 		if (playerPos.y < 0 - mapOffset) {
-			playerDirection = Dir.down;
+			playerDirection = Direction.Down;
 			isBridgeBuild = true;
 		}
 		if (playerPos.x > mapWidth + mapOffset) {
-			playerDirection = Dir.right;
+			playerDirection = Direction.Right;
 			isBridgeBuild = true;
 		}
 		if (playerPos.x < 0 - mapOffset) {
-			playerDirection = Dir.left;
+			playerDirection = Direction.Left;
 			isBridgeBuild = true;
 		}
 	}
-	Dir OppositeDirection(Dir dir) {
-		if (dir == Dir.left) return Dir.right;
-		if (dir == Dir.right) return Dir.left;
-		if (dir == Dir.down) return Dir.up;
-		if (dir == Dir.up) return Dir.down;
+	Direction OppositeDirection(Direction dir) {
+		if (dir == Direction.Left) return Direction.Right;
+		if (dir == Direction.Right) return Direction.Left;
+		if (dir == Direction.Down) return Direction.Up;
+		if (dir == Direction.Up) return Direction.Down;
 		throw new System.ArgumentException();
 	}
+	public List<Vector2> GetPossiblePath() {
+		List<Vector2> result = new List<Vector2>();
+		List<Direction> possibleDirection = new List<Direction>() { Direction.Down, Direction.Left, Direction.Right, Direction.Up };
+		possibleDirection.Remove(playerDirection);
+		foreach (var dir in possibleDirection) {
+			result.Add(DirToVector(dir));
+		}
+		return result;
+	}
 	void SetTraps() {
-		List<Dir> possibleDirection = new List<Dir>() { Dir.down, Dir.left, Dir.right, Dir.up };
+		List<Direction> possibleDirection = new List<Direction>() { Direction.Down, Direction.Left, Direction.Right, Direction.Up };
 		possibleDirection.Remove(OppositeDirection(playerDirection));
 		trapFree = possibleDirection[Random.Range(0, possibleDirection.Count)];
 	}
 	void TrapDamage() {
 		if (playerDirection != trapFree) PlayerParametersController.Instance.Health--;//todo
+	}
+	public void OpenDoors() {
+		if (enemies.Count > 0) {
+			foreach (var enemy in enemies) {
+				if (enemy.GetComponent<EnemyLogic>().IsAlive()) return;
+			}
+			isDoorOpen = true;
+			TipsController.Instance.SetTips(GetPossiblePath());
+			foreach (var door in doors) {
+				door.SetActive(false);
+			}
+		}
 	}
 	void Update () {
 		if (!player) {
@@ -74,13 +105,18 @@ public class LevelBridge : Singleton<LevelBridge>
 			TeleportPlayer();
 		}
 		if (isInitialized) {
+			if (!isDoorOpen) {
+				OpenDoors();
+			}
 			SetPlayerDirection();
 		}
 		if (isBridgeBuild) {
 			isBridgeBuild = false;
 			LevelGenerator.Instance.LevelStart();
 			UIController.Instance.StartFade();
-			TipsController.Instance.SetTips(Vector2.zero); //TODO:
+			PlayerParametersController.Instance.Mana += manaToLevel;
+			TipsController.Instance.Clear();//TODO
+			isDoorOpen = false;
 			TeleportPlayer();
 			TrapDamage();
 			SetTraps();
