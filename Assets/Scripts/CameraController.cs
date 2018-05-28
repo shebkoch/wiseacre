@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
 	void Awake() {
 		zPlane = transform.position.z;
 	}
-	void LateUpdate() {
+	private void Movement() {
 		if (!Target) return;
 		var targetPos = Target.position + Offset;
 		targetPos.z = zPlane;
@@ -21,5 +21,8 @@ public class CameraController : MonoBehaviour
 
 		var newPos = Vector3.Slerp(transform.position, targetPos, Velocity * Time.fixedDeltaTime);
 		transform.Translate(transform.InverseTransformPoint(newPos));
+	}
+	void LateUpdate() {
+		Movement();
 	}
 }

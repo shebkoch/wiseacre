@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerParametersController : Singleton<PlayerParametersController> {
-
+	
 	[SerializeField]
 	private int hp;
 	public int Health
 	{
 		get { return hp; }
 		set {
-			hp = value;
-			UIController.Instance.SetHpImage(value);
-			if (hp <= 0) UIController.Instance.GameOver();
+				hp = value;
+				UIController.Instance.SetHpImage(value);
+				if (hp <= 0) UIController.Instance.GameOver();
+				
+			}
 		}
-	}
 
 	private int mana;
 	[SerializeField]
@@ -23,12 +24,14 @@ public class PlayerParametersController : Singleton<PlayerParametersController> 
 	{
 		get { return mana; }
 		set {
+			if (mana < value) UIController.Instance.SetAddManaImage(value-mana);
 			mana = value;
-			if (mana <= 0) {
-				mana = startMana;
-				Health--;
-			}
+				if (mana <= 0) {
+					mana = startMana;
+					Health--;
+				}
 			UIController.Instance.SetManaImage(mana);
+			
 		}
 	}
 	private void Start() {

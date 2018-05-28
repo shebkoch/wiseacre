@@ -15,6 +15,8 @@ public class UIController : Singleton<UIController> {
 	public GameObject endMenu;
 	[Space(10)]
 	public Text manaText;
+	public Text addMana;
+	
 	public void SetHpImage(int hp) {
 		for (int i = 0; i < hearts.Count; i++) {
 			if (i < hp) hearts[i].gameObject.SetActive(true);
@@ -24,6 +26,13 @@ public class UIController : Singleton<UIController> {
 	public void SetManaImage(int mana) {
 		manaText.text = mana + "";
 	}
+	public void SetAddManaImage(int delta) {
+		addMana.text = "+" + delta;
+		Invoke("ClearAddMana", 1f);
+	}
+	private void ClearAddMana() {
+		addMana.text = "";
+	}
 	public void StartFade() {
 		fade.color = fadeColor;
 		isFading = true;
@@ -31,8 +40,12 @@ public class UIController : Singleton<UIController> {
 	public void GameOver() {
 		endMenu.SetActive(true);
 	}
-	public void Rsetart() {
+	public void Restart() {
 		Application.LoadLevel(0); //todo
+	}
+	public void Quit() {
+		NeuralAdapter.Save();
+		Application.Quit();
 	}
 	public void Update() {
 		if (isFading) {

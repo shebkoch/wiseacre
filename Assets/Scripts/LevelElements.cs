@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum LevelElement { Floor, Enemy, Obstacle, Player, Door, Border, BorderEdge, Trap, Reserved }
 
-public abstract class LevelElements: MonoBehaviour {
+public abstract class LevelElements : MonoBehaviour
+{
 	protected LevelElement[,] map;
-	protected float elementsDistance;
-	protected GameObject element;
+	protected float distance;
+	protected List<GameObject> elements;
 	protected int height;
 	protected int width;
 	protected int currentLevel;
 	protected Transform parent;
-	public void Init(GameObject element, float elementsDistance, Transform globalParent) {
-		this.element = element;
-		this.elementsDistance = elementsDistance;
+	public void Init(List<GameObject> elements, float elementsDistance, Transform globalParent) {
+		this.elements = elements;
+		this.distance = elementsDistance;
 		parent = new GameObject().transform;
 		parent.gameObject.name = GetType().Name;
 		parent.transform.parent = globalParent;
@@ -24,6 +25,13 @@ public abstract class LevelElements: MonoBehaviour {
 		this.width = width;
 		this.currentLevel = currentLevel;
 	}
+	protected GameObject GetRandomElement() {
+		foreach (var item in elements) {
+			var rand = Random.Range(0, 2);
+			if (rand == 1) return item;
+		}
+		return elements[0];
+	}
 	protected bool IsEmpty(int y, int x) {
 		return map[y, x] == LevelElement.Floor;
 	}
@@ -31,9 +39,9 @@ public abstract class LevelElements: MonoBehaviour {
 	protected abstract void SetElement(int y, int x);
 	public abstract void PlaceElements();
 	protected abstract void PlaceElement(int y, int x);
-	}
+}
 
-public class Floor: LevelElements
+public class Floor : LevelElements
 {
 	public override LevelElement[,] SetElements() {
 		for (int i = 0; i < height; i++) {
@@ -42,8 +50,8 @@ public class Floor: LevelElements
 			}
 		}
 		return this.map;
-		}
-	protected override void SetElement(int y,int x) {
+	}
+	protected override void SetElement(int y, int x) {
 		map[y, x] = LevelElement.Floor;
 	}
 	public override void PlaceElements() {
@@ -54,7 +62,9 @@ public class Floor: LevelElements
 		}
 	}
 	protected override void PlaceElement(int y, int x) {
-		Instantiate(element, new Vector3(x * elementsDistance, y * elementsDistance, element.transform.position.z), 
+
+		var element = GetRandomElement();
+		Instantiate(element, new Vector3(x * distance, y * distance, element.transform.position.z),
 					Quaternion.identity, parent);
 	}
 }
@@ -81,14 +91,14 @@ public class Enemies : LevelElements
 	public override void PlaceElements() {
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				if(map[i,j] == LevelElement.Enemy) PlaceElement(i, j);
+				if (map[i, j] == LevelElement.Enemy) PlaceElement(i, j);
 			}
 		}
 	}
 	protected override void PlaceElement(int y, int x) {
-		var enemy = Instantiate(element, new Vector3(x * elementsDistance, y * elementsDistance, element.transform.position.z),
+		var element = GetRandomElement();
+		var enemy = Instantiate(element, new Vector3(x * distance, y * distance, element.transform.position.z),
 					Quaternion.identity, parent);
-		enemy.tag = "Enemy";
 	}
 }
 
@@ -115,12 +125,14 @@ public class Obstacles : LevelElements
 	public override void PlaceElements() {
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				if (map[i, j] == LevelElement.Obstacle)  PlaceElement(i, j);
+				if (map[i, j] == LevelElement.Obstacle) PlaceElement(i, j);
 			}
 		}
 	}
 	protected override void PlaceElement(int y, int x) {
-		Instantiate(element, new Vector3(x * elementsDistance, y * elementsDistance, element.transform.position.z),
+
+		var element = GetRandomElement();
+		Instantiate(element, new Vector3(x * distance, y * distance, element.transform.position.z),
 					Quaternion.identity, parent);
 
 	}
@@ -133,7 +145,7 @@ public class MainPlayer : LevelElements
 	public override LevelElement[,] SetElements() {
 		xPos = width / 2;
 		yPos = height / 2;
-		SetElement(yPos,xPos);
+		SetElement(yPos, xPos);
 		return this.map;
 	}
 	protected override void SetElement(int y, int x) {
@@ -143,7 +155,9 @@ public class MainPlayer : LevelElements
 		PlaceElement(yPos, xPos);
 	}
 	protected override void PlaceElement(int y, int x) {
-		var player = Instantiate(element, new Vector3(x * elementsDistance, y * elementsDistance, element.transform.position.z),
+
+		var element = GetRandomElement();
+		var player = Instantiate(element, new Vector3(x * distance, y * distance, element.transform.position.z),
 			Quaternion.identity, parent);
 		player.transform.tag = "Player";
 	}
@@ -163,8 +177,8 @@ public class Doors : LevelElements
 	protected override void SetElement(int y, int x) {
 		for (int i = 0; i < doorHeight; i++) {
 			for (int j = 0; j < doorWidth; j++) {
-				int yPos = y - doorHeight/2 + i;
-				int xPos = x - doorWidth/2 + j;
+				int yPos = y - doorHeight / 2 + i;
+				int xPos = x - doorWidth / 2 + j;
 				if (yPos < height && xPos < width && yPos >= 0 && xPos >= 0)
 					map[yPos, xPos] = LevelElement.Reserved;
 			}
@@ -174,14 +188,16 @@ public class Doors : LevelElements
 	public override void PlaceElements() {
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				if (map[i, j] == LevelElement.Door) PlaceElement(i,j);
+				if (map[i, j] == LevelElement.Door) PlaceElement(i, j);
 			}
 		}
 	}
 
 	protected override void PlaceElement(int y, int x) {
-		Instantiate(element, new Vector3(x * elementsDistance, y * elementsDistance, element.transform.position.z), 
-					Rotation(y,x), parent);
+
+		var element = GetRandomElement();
+		Instantiate(element, new Vector3(x * distance, y * distance, element.transform.position.z),
+					Rotation(y, x), parent);
 	}
 	private Quaternion Rotation(int y, int x) {
 		if (y == height / 2 && x == 0) return Quaternion.Euler(0, 0, 90);
@@ -214,7 +230,9 @@ public class Borders : LevelElements
 		}
 	}
 	protected override void PlaceElement(int y, int x) {
-		Instantiate(element, new Vector3(x * elementsDistance, y * elementsDistance, element.transform.position.z), 
+
+		var element = GetRandomElement();
+		Instantiate(element, new Vector3(x * distance, y * distance, element.transform.position.z),
 					Rotation(y, x), parent);
 	}
 	private Quaternion Rotation(int y, int x) {
@@ -229,10 +247,10 @@ public class Borders : LevelElements
 public class BordersEdge : LevelElements
 {
 	public override LevelElement[,] SetElements() {
-		SetElement(0,0);
+		SetElement(0, 0);
 		SetElement(0, width - 1);
-		SetElement(height - 1, width -1);
-		SetElement(height -1, 0);
+		SetElement(height - 1, width - 1);
+		SetElement(height - 1, 0);
 		return this.map;
 	}
 	protected override void SetElement(int y, int x) {
@@ -241,12 +259,14 @@ public class BordersEdge : LevelElements
 	public override void PlaceElements() {
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				if (map[i, j] == LevelElement.BorderEdge) PlaceElement(i,j);
+				if (map[i, j] == LevelElement.BorderEdge) PlaceElement(i, j);
 			}
 		}
 	}
 	protected override void PlaceElement(int y, int x) {
-		Instantiate(element, new Vector3(x * elementsDistance, y * elementsDistance, element.transform.position.z),
+
+		var element = GetRandomElement();
+		Instantiate(element, new Vector3(x * distance, y * distance, element.transform.position.z),
 					Rotation(y, x), parent);
 	}
 	private Quaternion Rotation(int y, int x) {

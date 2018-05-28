@@ -8,18 +8,18 @@ public class LevelGenerator : Singleton<LevelGenerator> {
 	public int height;
 	public float elementsDistance;
 	private LevelElement[,] level;
-	private int curLevelNumber = 0;
+	public int curLevelNumber = 0;
 	public Transform map;
 	[Space(10)]
 	[Header("Level elements")]
-	public GameObject floor;
-	public GameObject enemy;
-	public GameObject obstacle;
-	public GameObject player;
-	public GameObject door;
-	public GameObject border;
-	public GameObject borderEdge;
-	
+	public List<GameObject> floor;
+	public List<GameObject> enemy;
+	public List<GameObject> obstacle;
+	public List<GameObject> player;
+	public List<GameObject> door;
+	public List<GameObject> border;
+	public List<GameObject> borderEdge;
+
 	List<LevelElements> levelElements;
 	void Awake() {
 		LevelStart();
@@ -54,8 +54,8 @@ public class LevelGenerator : Singleton<LevelGenerator> {
 	}
 	public void Generate() {
 		curLevelNumber++;
-		height += curLevelNumber * 2;
-		width += curLevelNumber * 2;//todo
+		height += curLevelNumber;
+		width += curLevelNumber;
 		level = new LevelElement[height, width];
 		foreach (var element in levelElements) {
 			element.SetMap(level, height, width, curLevelNumber);

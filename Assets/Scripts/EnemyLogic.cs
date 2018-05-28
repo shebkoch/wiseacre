@@ -3,18 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyLogic : MonoBehaviour {
-	bool isAlive = true;
+	public bool isAlive = true;
+	public int chanceToGainMana;
+	public int manaGainCount;
+	public GameObject shell;
+	public float shellСooldown;
+	private float shellTime;
+	public float shellForce;
+	public float scatter;
+	
+	public void Awake() {
+		shellTime = Time.time;
+	}
 	public bool IsAlive() {
-		return isAlive; //todo:
+		return isAlive;
+		
 	}
 	public void ForceKill() {
 		isAlive = false;
-		GetComponent<Animator>().SetTrigger("Die");
+		var animator = GetComponent<Animator>();
+		if (animator)
+			GetComponent<Animator>().SetTrigger("Die");
+		var rand = Random.Range(0,100);
+		if (rand < chanceToGainMana) {
+			PlayerParametersController.Instance.Mana += manaGainCount;
+			var manaGem = Instantiate(Resources.Load<GameObject>("mana"),transform.position,Quaternion.identity);
+			Destroy(manaGem, 2f);
+		}
 	}
-
+	bool IsReady() {
+		if (Time.time - shellTime > shellСooldown) {
+			shellTime = Time.time + Random.Range(-1,1) * scatter;
+			return true;
+		}
+		return false;
+	}
+	void Launch() {
+		var player = GameObject.FindGameObjectWithTag("Player");
+		var shellCopy = Instantiate(shell, transform.position, Quaternion.identity, transform);
+		//shellCopy.transform.LookAt(player.transform);
+		shellCopy.transform.right = player.transform.position - shellCopy.transform.position;
+		var direction = player.transform.position - shellCopy.transform.position;
+		direction.Normalize();
+		//shellCopy.GetComponent<Rigidbody2D>().velocity = transform.TransformDirection(Vector3.forward * 10);
+		shellCopy.GetComponent<Rigidbody2D>().AddForce(direction * shellForce, ForceMode2D.Force);
+		//shellCopy.GetComponent<Rigidbody2D>().AddForce( new Vector3(shellCopy.transform.forward.x, 0, shellCopy.transform.forward.z) * shellForce);
+	}
+	
 	void Update() {
 		//TODO
-		if(isAlive)
-			transform.position = Vector3.MoveTowards(transform.position, transform.position + new Vector3(Mathf.Abs(GetInstanceID()) % 5 * Random.Range(-1,1), GetInstanceID() % 5 + Random.Range(0,1)), 2 * Time.deltaTime);
+		if (shell) {
+			if (isAlive && IsReady()) Launch();
+		}
 	}
 }

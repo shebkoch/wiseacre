@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 	private static class PlayerAnimation {
+		
 		static Direction oldDirection;
 		public static void SetDirectionAnimation(Animator animator, Direction direction) {
 			if (direction != oldDirection) {
@@ -26,8 +27,13 @@ public class Player : MonoBehaviour {
 			animator.SetBool("isMoving", isMoving);
 		}
 	}
-	public enum Direction { Left, Right, Down, Up }
 	public Direction direction;
+	[Space(10)]
+	public GameObject shield;
+	public int shieldManaCost;
+	public float invincibilityTime;
+	private float lastDamageTime;
+	[Space(10)]
 	public float catchClickTime;
 	public float speed;
 	private float lastClickTime = 0;
@@ -35,11 +41,25 @@ public class Player : MonoBehaviour {
 	private Animator animator;
 	private Spell spell;
 	
+	
+	private void OnTriggerEnter2D(Collider2D collision) {
+		if(collision.tag == "Shell") {
+			Destroy(collision.gameObject);
+			if (Time.time - lastDamageTime > invincibilityTime) {
+				lastDamageTime = Time.time;
+				PlayerParametersController.Instance.Mana -= shieldManaCost;
+				shield.GetComponent<Animator>().SetTrigger("shield");
+
+			}
+		}
+	}
 	void Awake() {
 		animator = GetComponent<Animator>();
 		spell = GetComponent<Spell>();
+
+		//GetComponent<Rigidbody2D>().velocity = new Vector3(1, 0, dir.z) * speed;
 	}
-	void SetDirection(float x, float y) {
+	private void SetDirection(float x, float y) {
 		if (Mathf.Abs(x) > Mathf.Abs(y)) {
 			if (x < 0) direction = Direction.Left;
 			else direction = Direction.Right;
@@ -48,26 +68,27 @@ public class Player : MonoBehaviour {
 			else direction = Direction.Up;
 		}
 	}
-	void Movement() {
+	private void Movement() {
 		var touchPos = GetMouseWorldPos();
 		Vector3 directionVector = touchPos - transform.position;
 		SetDirection(directionVector.x, directionVector.y);
 		
 		transform.position = Vector3.MoveTowards(transform.position, touchPos, speed * Time.deltaTime);
 	}
-	void CatchDoubleClick() {
+	private void CatchDoubleClick() {
 		if (Time.time - lastClickTime < catchClickTime) {
 			isDoubleClicked = true;
 			spell.SetActiveDraw(true);
 		} else isDoubleClicked = false;
 		lastClickTime = Time.time;
 	}
-	Vector3 GetMouseWorldPos() {
+	private Vector3 GetMouseWorldPos() {
 		var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		mousePos.z = 0;
 		return mousePos;
 	}
 	void Update() {
+
 		if (Input.GetMouseButtonDown(0)) {
 			CatchDoubleClick();
 		}

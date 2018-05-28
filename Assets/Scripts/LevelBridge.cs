@@ -85,7 +85,13 @@ public class LevelBridge : Singleton<LevelBridge>
 		trapFree = possibleDirection[Random.Range(0, possibleDirection.Count)];
 	}
 	void TrapDamage() {
-		if (playerDirection != trapFree) PlayerParametersController.Instance.Health--;//todo
+		bool isDamaged = playerDirection != trapFree;
+		if (isDamaged) {
+			PlayerParametersController.Instance.Health--;//todo
+		}
+		else PlayerParametersController.Instance.Mana += manaToLevel;
+
+		TipsController.Instance.Study(isDamaged);
 	}
 	public void OpenDoors() {
 		if (enemies.Count > 0) {
@@ -114,7 +120,6 @@ public class LevelBridge : Singleton<LevelBridge>
 			isBridgeBuild = false;
 			LevelGenerator.Instance.LevelStart();
 			UIController.Instance.StartFade();
-			PlayerParametersController.Instance.Mana += manaToLevel;
 			TipsController.Instance.Clear();//TODO
 			isDoorOpen = false;
 			TeleportPlayer();
