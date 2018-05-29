@@ -62,18 +62,6 @@ public class Teller
 		var rand = Random.Range(0, tipsCopy.Count);
 		currentPhrase = tipsCopy[rand] + " " + DirectionToString(direction);
 	}
-	//public void SetAppropriate(float mark) {
-	//	var min = 100f;
-	//	string result = "";
-	//	foreach (var tip in tips) {
-	//		var buff = Mathf.Abs(tip.Value - mark);
-	//		if (buff < min) {
-	//			min = buff;
-	//			result = tip.Key;
-	//		}
-	//	}
-	//	currentPhrase = result;
-	//}
 	
 	public void Place(Vector2 position, int textBounds) {
 		gameObject.transform.position = position;
@@ -98,7 +86,6 @@ public static class NeuralAdapter
 			isInitialized = true;
 			net = new NeuralNetwork(layers);
 		}
-		//TODO
 		float maxId = 3;
 		float maxTraps = 4;
 		float maxVector = 100;
@@ -156,8 +143,7 @@ public class TipsController : Singleton<TipsController>
 	private string kindlyFileName = "kindly.json";
 	private string fileName = "crazy.json";
 
-	public List<TipsGroup> tipsGroups;
-	public List<GameObject> onScene = new List<GameObject>();
+	
 	public void Init() {
 		Teller crazy = new Teller("crazy", crazyObject, 1);
 		Teller kindly = new Teller("kindly", kindlyObject, 2);

@@ -56,11 +56,11 @@
      <Compile Include="Assets\Scripts\LevelBridge.cs" />
      <Compile Include="Assets\Scripts\LevelElements.cs" />
      <Compile Include="Assets\Scripts\LevelGenerator.cs" />
+     <Compile Include="Assets\Scripts\NeuralNetwork.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\PlayerParametersController.cs" />
      <Compile Include="Assets\Scripts\Singleton.cs" />
      <Compile Include="Assets\Scripts\Spell.cs" />
-     <Compile Include="Assets\Scripts\Tip.cs" />
      <Compile Include="Assets\Scripts\TipsController.cs" />
      <Compile Include="Assets\Scripts\UIController.cs" />
  <Reference Include="UnityEngine.UI">
