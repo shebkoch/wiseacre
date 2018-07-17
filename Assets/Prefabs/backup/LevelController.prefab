@@ -54,6 +54,7 @@ MonoBehaviour:
   width: 15
   height: 15
   elementsDistance: 1
+  curLevelNumber: 0
   map: {fileID: 0}
   floor:
   - {fileID: 1861886891045508, guid: 8edfcf67e9385bf4c9d2198ba0191539, type: 2}
@@ -66,7 +67,10 @@ MonoBehaviour:
   - {fileID: 1190745817702760, guid: eab9b6ca07958934f806eb95eba10b0c, type: 2}
   - {fileID: 1014913071439270, guid: 3b67ff1b7d0668c429d3a395989dc5bc, type: 2}
   obstacle:
+  - {fileID: 1099372049054300, guid: aa991e62438c6464e8020005b8d62b69, type: 2}
   - {fileID: 1772960323464938, guid: cb7415076253c9b44973a4288187661f, type: 2}
+  - {fileID: 1579240167159948, guid: b68e49eea3a77404196e0d5ca43a50f5, type: 2}
+  - {fileID: 1945315635636714, guid: dadefd05d40343049aaa0df3649d71cc, type: 2}
   player:
   - {fileID: 1076193115775156, guid: 801bea1687ade4d49906ade6c7a782aa, type: 2}
   door:

@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAlive: 1
-  chanceToGainMana: 15
+  chanceToGainMana: 20
   manaGainCount: 100
   shell: {fileID: 1400196055046634, guid: 252fee087bdae7341bc18ab76fb8f5c9, type: 2}
   "shell\u0421ooldown": 4

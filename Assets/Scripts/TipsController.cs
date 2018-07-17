@@ -62,18 +62,6 @@ public class Teller
 		var rand = Random.Range(0, tipsCopy.Count);
 		currentPhrase = tipsCopy[rand] + " " + DirectionToString(direction);
 	}
-	//public void SetAppropriate(float mark) {
-	//	var min = 100f;
-	//	string result = "";
-	//	foreach (var tip in tips) {
-	//		var buff = Mathf.Abs(tip.Value - mark);
-	//		if (buff < min) {
-	//			min = buff;
-	//			result = tip.Key;
-	//		}
-	//	}
-	//	currentPhrase = result;
-	//}
 	
 	public void Place(Vector2 position, int textBounds) {
 		gameObject.transform.position = position;
@@ -86,7 +74,7 @@ public static class NeuralAdapter
 	static private bool isInitialized = false;
 	static private NeuralNetwork net;
 	static private float[] input;
-	const int inputStateCount = 6;
+	const int inputStateCount = 7;
 	const int outputStateCount = 4;
 	const int hiddenCount = 10;
 	const int vectorToIntFactor = 100;
@@ -98,18 +86,22 @@ public static class NeuralAdapter
 			isInitialized = true;
 			net = new NeuralNetwork(layers);
 		}
-		//TODO
 		float maxId = 3;
 		float maxTraps = 4;
 		float maxVector = 100;
 		float maxLevel = 15;
 		float maxDirection = 4;
+		float same;
+		if (inputs.ContainsKey(teller) && inputs[teller][inputStateCount - 1] == (float)prev / maxDirection) same = 1f;
+		else same = 0f;
 		input = new float[inputStateCount] { teller.id / maxId,
 											trapFree / maxTraps,
 											curDirection.x / maxVector,
 											curDirection.y / maxVector,
 											curLevel / maxLevel,
-											(float)prev / maxDirection };
+											(float)prev / maxDirection,
+											same
+											};
 		if (!inputs.ContainsKey(teller)) inputs.Add(teller,input);
 		inputs[teller] = input;
 		float[] outputArr = net.GetAnswer(input);
@@ -156,8 +148,7 @@ public class TipsController : Singleton<TipsController>
 	private string kindlyFileName = "kindly.json";
 	private string fileName = "crazy.json";
 
-	public List<TipsGroup> tipsGroups;
-	public List<GameObject> onScene = new List<GameObject>();
+	
 	public void Init() {
 		Teller crazy = new Teller("crazy", crazyObject, 1);
 		Teller kindly = new Teller("kindly", kindlyObject, 2);
@@ -182,7 +173,7 @@ public class TipsController : Singleton<TipsController>
 																	(int)LevelBridge.Instance.trapFree,
 																	possibleDirection[randDirection],
 																	LevelGenerator.Instance.curLevelNumber,
-																	answers[i].direction);
+																	LevelBridge.Instance.playerDirection);
 			
 			answers[i].teller.SetDirectionPhrase(answers[i].direction);
 			answers[i].teller.Place(possibleDirection[randDirection], textBound);

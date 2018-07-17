@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wiseacre", "wiseacre.csproj", "{4C33E927-4EAA-FC87-A636-C5DAD9AD7E46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wiseacre.Plugins", "wiseacre.Plugins.csproj", "{47842DFF-A8F6-B8B9-52E6-19506FECDF26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wiseacre.Editor", "wiseacre.Editor.csproj", "{F85A632F-48AD-345B-500E-8FD9968F3330}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{4C33E927-4EAA-FC87-A636-C5DAD9AD7E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C33E927-4EAA-FC87-A636-C5DAD9AD7E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C33E927-4EAA-FC87-A636-C5DAD9AD7E46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47842DFF-A8F6-B8B9-52E6-19506FECDF26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47842DFF-A8F6-B8B9-52E6-19506FECDF26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47842DFF-A8F6-B8B9-52E6-19506FECDF26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47842DFF-A8F6-B8B9-52E6-19506FECDF26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F85A632F-48AD-345B-500E-8FD9968F3330}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F85A632F-48AD-345B-500E-8FD9968F3330}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F85A632F-48AD-345B-500E-8FD9968F3330}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F85A632F-48AD-345B-500E-8FD9968F3330}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

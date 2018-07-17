@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityStandardAssets.CrossPlatformInput;
 public class Player : MonoBehaviour {
 	private static class PlayerAnimation {
 		
@@ -28,6 +28,7 @@ public class Player : MonoBehaviour {
 		}
 	}
 	public Direction direction;
+	public Vector2 moveVec;
 	[Space(10)]
 	public GameObject shield;
 	public int shieldManaCost;
@@ -69,18 +70,23 @@ public class Player : MonoBehaviour {
 		}
 	}
 	private void Movement() {
-		var touchPos = GetMouseWorldPos();
-		Vector3 directionVector = touchPos - transform.position;
-		SetDirection(directionVector.x, directionVector.y);
-		
-		transform.position = Vector3.MoveTowards(transform.position, touchPos, speed * Time.deltaTime);
+		//var touchPos = GetMouseWorldPos();
+		//Vector3 directionVector = touchPos - transform.position;
+		//transform.position = Vector3.MoveTowards(transform.position, touchPos, speed * Time.deltaTime);
+		SetDirection(moveVec.x, moveVec.y);
+		var pos = transform.position + new Vector3(moveVec.x, moveVec.y,transform.position.z);
+		transform.position = Vector3.MoveTowards(transform.position, pos, speed * Time.deltaTime);
 	}
-	private void CatchDoubleClick() {
-		if (Time.time - lastClickTime < catchClickTime) {
+	private void CatchSpellStart() {
+		//if (Time.time - lastClickTime < catchClickTime) {
+		//	isDoubleClicked = true;
+		//	spell.SetActiveDraw(true);
+		//} else isDoubleClicked = false;
+		//lastClickTime = Time.time;
+		if (Joystick.isPress == false) {
 			isDoubleClicked = true;
 			spell.SetActiveDraw(true);
 		} else isDoubleClicked = false;
-		lastClickTime = Time.time;
 	}
 	private Vector3 GetMouseWorldPos() {
 		var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -90,14 +96,16 @@ public class Player : MonoBehaviour {
 	void Update() {
 
 		if (Input.GetMouseButtonDown(0)) {
-			CatchDoubleClick();
+			CatchSpellStart();
 		}
 
 		if (Input.GetMouseButtonUp(0)) {
 			isDoubleClicked = false;
 		}
+		moveVec = new Vector2(CrossPlatformInputManager.GetAxis("Horizontal"),
+										CrossPlatformInputManager.GetAxis("Vertical"));
 		PlayerAnimation.SetDirectionAnimation(animator, direction);
-		PlayerAnimation.SetAnimationFlags(animator, isDoubleClicked,!isDoubleClicked);
+		PlayerAnimation.SetAnimationFlags(animator, isDoubleClicked, !isDoubleClicked);		//moveVec == Vector2.zero);
 
 	}
 	void FixedUpdate () {
