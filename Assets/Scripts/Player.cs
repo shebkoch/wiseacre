@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour {
 	private static class PlayerAnimation {
@@ -60,50 +61,27 @@ public class Player : MonoBehaviour {
 		//GetComponent<Rigidbody2D>().velocity = new Vector3(1, 0, dir.z) * speed;
 	}
 	private void SetDirection(float x, float y) {
-		if (Mathf.Abs(x) > Mathf.Abs(y)) {
-			if (x < 0) direction = Direction.Left;
-			else direction = Direction.Right;
-		} else {
-			if (y < 0) direction = Direction.Down;
-			else direction = Direction.Up;
-		}
-	}
-	private void Movement() {
-		var touchPos = GetMouseWorldPos();
-		Vector3 directionVector = touchPos - transform.position;
-		SetDirection(directionVector.x, directionVector.y);
+		if (Mathf.Abs(x) > Mathf.Abs(y))
+			direction = x < 0 ? Direction.Left : Direction.Right;
+		else
+			direction = y < 0 ? Direction.Down : Direction.Up;
 		
-		transform.position = Vector3.MoveTowards(transform.position, touchPos, speed * Time.deltaTime);
 	}
-	private void CatchDoubleClick() {
-		if (Time.time - lastClickTime < catchClickTime) {
-			isDoubleClicked = true;
-			spell.SetActiveDraw(true);
-		} else isDoubleClicked = false;
-		lastClickTime = Time.time;
+	private void Movement()
+	{
+		var directionVector = PlayerInput.GetTargetDirection();
+		SetDirection(directionVector.x, directionVector.y);
+		transform.Translate(speed * Time.deltaTime * PlayerInput.GetTargetDirection()); //??
 	}
-	private Vector3 GetMouseWorldPos() {
-		var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		mousePos.z = 0;
-		return mousePos;
-	}
+
 	void Update() {
-
-		if (Input.GetMouseButtonDown(0)) {
-			CatchDoubleClick();
-		}
-
-		if (Input.GetMouseButtonUp(0)) {
-			isDoubleClicked = false;
-		}
+		
 		PlayerAnimation.SetDirectionAnimation(animator, direction);
 		PlayerAnimation.SetAnimationFlags(animator, isDoubleClicked,!isDoubleClicked);
-
 	}
-	void FixedUpdate () {
-		if(Input.GetMouseButton(0)) {
-			if (!isDoubleClicked)
-				Movement();
-		}
+
+	void FixedUpdate()
+	{
+		Movement();
 	}
 }

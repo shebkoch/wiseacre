@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Spell : MonoBehaviour {
 	private bool isDrawing = false;
+	private Vector3 drawingPos;
 	public LineRenderer line;
 	public Color lineStartColor;
 	public Color lineEndColor;
@@ -20,27 +22,23 @@ public class Spell : MonoBehaviour {
 	void Awake() {
 	}
 
-	Vector3 GetMouseWorldPos() {
-		var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		mousePos.z = 0;
-		return mousePos;
-	}
 	public void SetActiveDraw(bool draw) {
 		isDrawing = draw;
 	}
 
-	void Paint() {
+	void Paint()
+	{
+		drawingPos -= transform.position;
 		line.positionCount = pointsList.Count;
 		if (pointsList.Count != 0)
 			line.SetPositions(pointsList.ToArray());
 			//line.SetPosition(pointsList.Count - 1, pointsList[pointsList.Count - 1]);
-		var mousePos = GetMouseWorldPos();
-		if (pointsList.Count == 0 || (Vector2.Distance(pointsList[pointsList.Count - 1], mousePos) > lineStep))
-			pointsList.Add(mousePos + Vector3.forward*transform.position.z);
-
+		if (pointsList.Count == 0 || (Vector2.Distance(pointsList[pointsList.Count - 1], drawingPos) > lineStep))
+			pointsList.Add(drawingPos - Vector3.forward); //todo
+		Debug.Log(drawingPos - Vector3.forward);
 		if (pointsList.Count > minLoopDetection) {
-			for (int i = 0; i < pointsList.Count - minLoopDetection; i++) {
-				if (Vector2.Distance(pointsList[i], mousePos) < loopDistance) {
+			for (var i = 0; i < pointsList.Count - minLoopDetection; i++) {
+				if (Vector2.Distance(pointsList[i], drawingPos) < loopDistance) {
 					isLoop = true;
 					Cast(i);
 					break;
@@ -60,7 +58,7 @@ public class Spell : MonoBehaviour {
 			Invoke("ClearLine", 0.5f);
 		}
 		disapperTimer++;
-		if (disapperTimer % disappearSpeed == 0) pointsList.RemoveAt(0);
+		if (Math.Abs(disapperTimer % disappearSpeed) < Double.Epsilon) pointsList.RemoveAt(0);
 	}
 	void ClearLine() {
 		line.positionCount = 0;
@@ -92,16 +90,20 @@ public class Spell : MonoBehaviour {
 				enemy.GetComponent<EnemyLogic>().ForceKill();
 		}
 	}
-	public void GetLine (int contactIndex) {
-		
 
-	}
-	void Update() {
-		if(Input.GetMouseButton(0) && isDrawing) {
+	private void SetDrawing()
+	{
+		var touchPos = PlayerInput.GetCastTouchPos();
+		if (touchPos.HasValue)
+		{
+			isDrawing = true;
+			drawingPos = touchPos.Value;
 			Paint();
 		}
-		if (Input.GetMouseButtonUp(0)) {
-			ClearLine();
-		}
+		else ClearLine();
+	}
+	void Update()
+	{
+		SetDrawing();
 	}
 }
