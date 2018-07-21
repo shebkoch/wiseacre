@@ -9,9 +9,12 @@ namespace UnityStandardAssets.CrossPlatformInput
 {
     [ExecuteInEditMode]
     public class MobileControlRig : MonoBehaviour
+<<<<<<< HEAD
 #if UNITY_EDITOR
         , UnityEditor.Build.IActiveBuildTargetChanged
 #endif
+=======
+>>>>>>> ee8372107ccc4202b8a4c10e0919c8af43ee5e7c
     {
         // this script enables or disables the child objects of a control rig
         // depending on whether the USE_MOBILE_INPUT define is declared.
@@ -19,12 +22,16 @@ namespace UnityStandardAssets.CrossPlatformInput
         // This define is set or unset by a menu item that is included with
         // the Cross Platform Input package.
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ee8372107ccc4202b8a4c10e0919c8af43ee5e7c
 #if !UNITY_EDITOR
 	void OnEnable()
 	{
 		CheckEnableControlRig();
 	}
+<<<<<<< HEAD
 #else
         public int callbackOrder
         {
@@ -52,17 +59,28 @@ namespace UnityStandardAssets.CrossPlatformInput
                 }
             }
         }
+=======
+	#endif
+>>>>>>> ee8372107ccc4202b8a4c10e0919c8af43ee5e7c
 
 #if UNITY_EDITOR
 
         private void OnEnable()
         {
+<<<<<<< HEAD
+=======
+            EditorUserBuildSettings.activeBuildTargetChanged += Update;
+>>>>>>> ee8372107ccc4202b8a4c10e0919c8af43ee5e7c
             EditorApplication.update += Update;
         }
 
 
         private void OnDisable()
         {
+<<<<<<< HEAD
+=======
+            EditorUserBuildSettings.activeBuildTargetChanged -= Update;
+>>>>>>> ee8372107ccc4202b8a4c10e0919c8af43ee5e7c
             EditorApplication.update -= Update;
         }
 
@@ -78,7 +96,11 @@ namespace UnityStandardAssets.CrossPlatformInput
         {
 #if MOBILE_INPUT
 		EnableControlRig(true);
+<<<<<<< HEAD
 #else
+=======
+		#else
+>>>>>>> ee8372107ccc4202b8a4c10e0919c8af43ee5e7c
             EnableControlRig(false);
 #endif
         }
@@ -91,6 +113,7 @@ namespace UnityStandardAssets.CrossPlatformInput
                 t.gameObject.SetActive(enabled);
             }
         }
+<<<<<<< HEAD
 
 #if UNITY_EDITOR
         public void OnActiveBuildTargetChanged(BuildTarget previousTarget, BuildTarget newTarget)
@@ -100,3 +123,7 @@ namespace UnityStandardAssets.CrossPlatformInput
 #endif
     }
 }
+=======
+    }
+}
+>>>>>>> ee8372107ccc4202b8a4c10e0919c8af43ee5e7c

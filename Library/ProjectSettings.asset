@@ -7,8 +7,12 @@ PlayerSettings:
   productGUID: 15ed828f76de5cf46aab2e0772723a05
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
+<<<<<<< HEAD
   AndroidEnableSustainedPerformanceMode: 0
   defaultScreenOrientation: 4
+=======
+  defaultScreenOrientation: 3
+>>>>>>> ee8372107ccc4202b8a4c10e0919c8af43ee5e7c
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
@@ -598,12 +602,18 @@ PlayerSettings:
   webGLAnalyzeBuildSize: 0
   webGLUseEmbeddedResources: 0
   webGLCompressionFormat: 1
+<<<<<<< HEAD
   webGLLinkerTarget: 1
   scriptingDefineSymbols:
     1: CROSS_PLATFORM_INPUT
     4: CROSS_PLATFORM_INPUT;MOBILE_INPUT
     7: CROSS_PLATFORM_INPUT;MOBILE_INPUT
     14: MOBILE_INPUT
+=======
+  scriptingDefineSymbols:
+    1: CROSS_PLATFORM_INPUT
+    7: CROSS_PLATFORM_INPUT;MOBILE_INPUT
+>>>>>>> ee8372107ccc4202b8a4c10e0919c8af43ee5e7c
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}

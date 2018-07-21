@@ -16,8 +16,15 @@ public class UIController : Singleton<UIController> {
 	[Space(10)]
 	public Text manaText;
 	public Text addMana;
-	
+	[Space(10)]
+	public GameObject hurt;
+
+	public void HurtStart() {
+		hurt.SetActive(true);
+		hurt.GetComponent<Animator>().SetTrigger("Start");
+	}
 	public void SetHpImage(int hp) {
+
 		for (int i = 0; i < hearts.Count; i++) {
 			if (i < hp) hearts[i].gameObject.SetActive(true);
 			else hearts[i].gameObject.SetActive(false);
