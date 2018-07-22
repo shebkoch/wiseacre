@@ -8,7 +8,7 @@ public enum Direction
 public class LevelBridge : Singleton<LevelBridge>
 {
 	public int manaToLevel;
-	public Direction playerDirection;
+	private Direction playerDirection;
 	private bool isBridgeBuild = false;
 	private GameObject player;
 	private int mapHeight;

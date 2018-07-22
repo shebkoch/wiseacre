@@ -23,7 +23,7 @@ namespace GestureRecognizer {
 				float posScore = Mathf.Clamp01 (1f - positionDistance / 50);
 				float curvScore = Mathf.Clamp01 (1f - curvatureDistance / 50);
 				float angleScore = Mathf.Clamp01 (1f - angleDistance / 50);
-				return Mathf.Clamp01 ((4 * posScore + 1 * curvScore + 1 * angleScore) / 6);
+				return Mathf.Clamp01 ((2 * posScore + 1 * curvScore + 3 * angleScore) / 6);//поменял
 			}
 		}
 

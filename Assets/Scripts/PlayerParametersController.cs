@@ -12,8 +12,6 @@ public class PlayerParametersController : Singleton<PlayerParametersController> 
 		set {
 				hp = value;
 				UIController.Instance.SetHpImage(value);
-				//TODO if hp can +
-				UIController.Instance.HurtStart();
 				if (hp <= 0) UIController.Instance.GameOver();
 				
 			}

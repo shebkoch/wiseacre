@@ -1,5 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
+using GestureRecognizer;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +33,7 @@ public class LevelGenerator : Singleton<LevelGenerator> {
 		Generate();
 		LevelBridge.Instance.Init();
 	}
+
 	public void Clear() {
 		if (map) Destroy(map.gameObject);
 		map = new GameObject().transform;

@@ -6,12 +6,25 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerInput
 {
-	public static Vector3 GetTargetDirection()
-	{
-		return new Vector3(
+	public static Direction PlayerDirection {
+		get { return GetDirection(TargetDirection.x, TargetDirection.y); }
+	}
+
+	public static Vector3 TargetDirection {
+		get {
+			return new Vector3(
 			CrossPlatformInputManager.GetAxis("Horizontal"),
 			CrossPlatformInputManager.GetAxis("Vertical"),
 			0);
+		}
+	}
+	public static Vector3 GetTargetDirection()
+	{
+		var targetDir =  new Vector3(
+			CrossPlatformInputManager.GetAxis("Horizontal"),
+			CrossPlatformInputManager.GetAxis("Vertical"),
+			0);
+		return targetDir;
 	}
 
 	public static Vector3? GetMovementTouchPos()
@@ -54,6 +67,12 @@ public class PlayerInput
 		var worldPos = Camera.main.ScreenToWorldPoint(touch.Value.position);
 		worldPos.z = 0;
 		return worldPos;
+	}
+	private static Direction GetDirection(float x, float y) {
+		if (Mathf.Abs(x) > Mathf.Abs(y))
+			return x < 0 ? Direction.Left : Direction.Right;
+		else
+			return y < 0 ? Direction.Down : Direction.Up;
 	}
 
 }

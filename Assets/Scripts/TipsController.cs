@@ -74,7 +74,7 @@ public static class NeuralAdapter
 	static private bool isInitialized = false;
 	static private NeuralNetwork net;
 	static private float[] input;
-	const int inputStateCount = 7;
+	const int inputStateCount = 6;
 	const int outputStateCount = 4;
 	const int hiddenCount = 10;
 	const int vectorToIntFactor = 100;
@@ -91,17 +91,12 @@ public static class NeuralAdapter
 		float maxVector = 100;
 		float maxLevel = 15;
 		float maxDirection = 4;
-		float same;
-		if (inputs.ContainsKey(teller) && inputs[teller][inputStateCount - 1] == (float)prev / maxDirection) same = 1f;
-		else same = 0f;
 		input = new float[inputStateCount] { teller.id / maxId,
 											trapFree / maxTraps,
 											curDirection.x / maxVector,
 											curDirection.y / maxVector,
 											curLevel / maxLevel,
-											(float)prev / maxDirection,
-											same
-											};
+											(float)prev / maxDirection };
 		if (!inputs.ContainsKey(teller)) inputs.Add(teller,input);
 		inputs[teller] = input;
 		float[] outputArr = net.GetAnswer(input);
@@ -173,7 +168,7 @@ public class TipsController : Singleton<TipsController>
 																	(int)LevelBridge.Instance.trapFree,
 																	possibleDirection[randDirection],
 																	LevelGenerator.Instance.curLevelNumber,
-																	LevelBridge.Instance.playerDirection);
+																	answers[i].direction);
 			
 			answers[i].teller.SetDirectionPhrase(answers[i].direction);
 			answers[i].teller.Place(possibleDirection[randDirection], textBound);
