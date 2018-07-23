@@ -177,7 +177,7 @@ namespace GestureRecognizer {
 					OnRecognize.Invoke (RecognitionResult.Empty);
 				}
 			}
-
+			ClearLines();
 			yield return null;
 		}
 

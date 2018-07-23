@@ -19,18 +19,24 @@ public class EnemyLogic : MonoBehaviour {
 		return isAlive;
 		
 	}
+
 	public void ForceKill() {
 		isAlive = false;
 		var animator = GetComponent<Animator>();
 		if (animator)
 			GetComponent<Animator>().SetTrigger("Die");
-		var rand = Random.Range(0,100);
+		GetMana();
+	}
+
+	private void GetMana() {
+		var rand = Random.Range(0, 100);
 		if (rand < chanceToGainMana) {
 			PlayerParametersController.Instance.Mana += manaGainCount;
-			var manaGem = Instantiate(Resources.Load<GameObject>("mana"),transform.position,Quaternion.identity);
+			var manaGem = Instantiate(Resources.Load<GameObject>("mana"), transform.position, Quaternion.identity);
 			Destroy(manaGem, 2f);
 		}
 	}
+
 	bool IsReady() {
 		if (Time.time - shellTime > shellСooldown) {
 			shellTime = Time.time + Random.Range(-1,1) * scatter;
@@ -49,7 +55,20 @@ public class EnemyLogic : MonoBehaviour {
 		shellCopy.GetComponent<Rigidbody2D>().AddForce(direction * shellForce, ForceMode2D.Force);
 		//shellCopy.GetComponent<Rigidbody2D>().AddForce( new Vector3(shellCopy.transform.forward.x, 0, shellCopy.transform.forward.z) * shellForce);
 	}
-	
+
+	public void OnTriggerEnter2D(Collider2D collider) {
+		if (collider.tag == "goodFire") {
+			var animator = GetComponent<Animator>();
+			if (animator)
+				if(isAlive)
+					GetComponent<Animator>().SetTrigger("FireDie");
+				else {
+					GetComponent<Animator>().SetTrigger("Die");
+				}
+			isAlive = false;
+			GetMana();
+		}
+	}
 	void Update() {
 		//TODO
 		if (shell) {

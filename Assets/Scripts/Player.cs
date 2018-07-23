@@ -40,7 +40,6 @@ public class Player : MonoBehaviour {
 	private float lastClickTime = 0;
 	private bool isDoubleClicked = false;
 	private Animator animator;
-	private Spell spell;
 	
 	
 	private void OnTriggerEnter2D(Collider2D collision) {
@@ -56,7 +55,6 @@ public class Player : MonoBehaviour {
 	}
 	void Awake() {
 		animator = GetComponent<Animator>();
-		spell = GetComponent<Spell>();
 
 		//GetComponent<Rigidbody2D>().velocity = new Vector3(1, 0, dir.z) * speed;
 	}

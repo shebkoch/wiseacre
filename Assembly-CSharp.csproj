@@ -77,8 +77,10 @@
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\PlayerInput.cs" />
     <Compile Include="Assets\Scripts\PlayerParametersController.cs" />
+    <Compile Include="Assets\Scripts\SerializableDictionary\SerializableDictionary.cs" />
+    <Compile Include="Assets\Scripts\SerializableDictionary\SerializableDictionaryPropertyDrawer.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />
-    <Compile Include="Assets\Scripts\Spell.cs" />
+    <Compile Include="Assets\Scripts\Spells.cs" />
     <Compile Include="Assets\Scripts\TipsController.cs" />
     <Compile Include="Assets\Scripts\UIController.cs" />
     <None Include="Assets\GestureRecognizer\UPDATE GUIDE.txt" />
