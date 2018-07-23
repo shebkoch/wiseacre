@@ -6,10 +6,16 @@ public class PlayerParametersController : Singleton<PlayerParametersController> 
 	
 	[SerializeField]
 	private int hp;
+
+	public GameObject damagePanel;
 	public int Health
 	{
 		get { return hp; }
 		set {
+			if (value < hp) {
+				damagePanel.SetActive(true);
+				Invoke("DisableDamagePanel", 1.5f);
+			}
 				hp = value;
 				UIController.Instance.SetHpImage(value);
 				if (hp <= 0) UIController.Instance.GameOver();
@@ -36,5 +42,9 @@ public class PlayerParametersController : Singleton<PlayerParametersController> 
 	}
 	private void Start() {
 		Mana = startMana;
+	}
+
+	private void DisableDamagePanel() {
+		damagePanel.SetActive(false);
 	}
 }

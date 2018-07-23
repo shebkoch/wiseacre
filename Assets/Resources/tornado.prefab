@@ -23,9 +23,10 @@ GameObject:
   - component: {fileID: 95888367367045480}
   - component: {fileID: 50673372059444786}
   - component: {fileID: 61852862958726010}
+  - component: {fileID: 114571900571500570}
   m_Layer: 0
   m_Name: tornado
-  m_TagString: goodFire
+  m_TagString: tornado
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,6 +107,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114571900571500570
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1900196321161560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbe5796e2dbd3fb4cbde63e7db07463d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212101473115807624
 SpriteRenderer:
   m_ObjectHideFlags: 1

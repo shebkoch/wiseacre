@@ -67,7 +67,7 @@ public class Player : MonoBehaviour {
 	}
 	private void Movement() {
 		direction = PlayerInput.PlayerDirection;
-		transform.Translate(speed * Time.deltaTime * PlayerInput.GetTargetDirection()); //??
+		transform.Translate(speed * Time.deltaTime * PlayerInput.TargetDirection); //??
 	}
 
 	void Update() {

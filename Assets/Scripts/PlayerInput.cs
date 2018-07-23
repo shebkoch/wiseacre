@@ -18,14 +18,6 @@ public class PlayerInput
 			0);
 		}
 	}
-	public static Vector3 GetTargetDirection()
-	{
-		var targetDir =  new Vector3(
-			CrossPlatformInputManager.GetAxis("Horizontal"),
-			CrossPlatformInputManager.GetAxis("Vertical"),
-			0);
-		return targetDir;
-	}
 
 	public static Vector3? GetMovementTouchPos()
 	{

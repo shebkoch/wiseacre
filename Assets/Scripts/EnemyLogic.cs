@@ -29,6 +29,7 @@ public class EnemyLogic : MonoBehaviour {
 	}
 
 	private void GetMana() {
+		if (!isAlive) return;
 		var rand = Random.Range(0, 100);
 		if (rand < chanceToGainMana) {
 			PlayerParametersController.Instance.Mana += manaGainCount;
@@ -57,16 +58,18 @@ public class EnemyLogic : MonoBehaviour {
 	}
 
 	public void OnTriggerEnter2D(Collider2D collider) {
+		
 		if (collider.tag == "goodFire") {
 			var animator = GetComponent<Animator>();
-			if (animator)
-				if(isAlive)
-					GetComponent<Animator>().SetTrigger("FireDie");
-				else {
-					GetComponent<Animator>().SetTrigger("Die");
-				}
+			if (animator) GetComponent<Animator>().SetTrigger(isAlive ? "FireDie" : "Die");
 			isAlive = false;
 			GetMana();
+		}
+
+		if (collider.tag == "tornado") {
+			isAlive = false;
+			GetMana();//rf
+			gameObject.GetComponent<SpriteRenderer>().color = new Color(0,0,0,0);
 		}
 	}
 	void Update() {

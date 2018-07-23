@@ -14,16 +14,21 @@ public class Spells : MonoBehaviour {
 		spells.Add("bolt", new Directional.Bolt());
 	}
 	public void Cast(RecognitionResult result) {
-		if (result != RecognitionResult.Empty)
+		if (result != RecognitionResult.Empty && spells.ContainsKey(result.gesture.id)){ //rf
 			spells[result.gesture.id].Cast();
+			PlayerParametersController.Instance.Mana -= spells[result.gesture.id].cost;
+		}
+
 	}
 	public abstract class Spell {
+		public int cost;
 		public abstract void Cast();
 	}
 	
 	public class Fireball : Spell {
+		public Fireball() { cost = 200;}
 		public float shellForce = 400;
-
+		
 		public override void Cast() {
 			var fireball = Resources.Load<GameObject>("fireball");
 			var playerPos = FindObjectOfType<Player>().transform.position; //op
@@ -37,9 +42,12 @@ public class Spells : MonoBehaviour {
 			direction.Normalize();
 			fireball.GetComponent<Rigidbody2D>().AddForce(direction * shellForce, ForceMode2D.Force);
 		}
+		
 	}
 	public class Directional : Spell {
+		public Directional() { cost = 50;}
 		public int shellForce = 400;
+
 		public override void Cast() {
 			Direction direction = PlayerInput.PlayerDirection;
 			var playerPos = FindObjectOfType<Player>().transform.position; //op
@@ -63,6 +71,7 @@ public class Spells : MonoBehaviour {
 			fireball.GetComponent<Rigidbody2D>().AddForce(dir * shellForce, ForceMode2D.Force);
 		}
 		public class Bolt : Spell {
+			public Bolt() { cost = 350;}
 			public override void Cast() {
 				var enemies = FindObjectsOfType<EnemyLogic>().Where(x => x.isAlive).ToArray();
 				var playerPos = FindObjectOfType<Player>().transform.position; //op

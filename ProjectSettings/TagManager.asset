@@ -8,6 +8,8 @@ TagManager:
   - Door
   - Shell
   - goodFire
+  - tornado
+  - static
   layers:
   - Default
   - TransparentFX
