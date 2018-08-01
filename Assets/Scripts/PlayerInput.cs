@@ -4,12 +4,19 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class PlayerInput
-{
+public static class PlayerInput {
+	private static Direction playerDirection;
 	public static Direction PlayerDirection {
-		get { return GetDirection(TargetDirection.x, TargetDirection.y); }
+		get {
+			SetDirection();
+			return playerDirection;
+		}	
 	}
 
+	public static void SetDirection() {
+		if (TargetDirection != Vector3.zero)
+			playerDirection = GetDirection(TargetDirection.x, TargetDirection.y);
+	}
 	public static Vector3 TargetDirection {
 		get {
 			return new Vector3(
@@ -19,23 +26,40 @@ public class PlayerInput
 		}
 	}
 
+	public static Vector3 AttackDirection {
+		get { return new Vector3(
+			CrossPlatformInputManager.GetAxis("HorizontalAttack"),
+			CrossPlatformInputManager.GetAxis("VerticalAttack"),
+			0); }
+	}
+
 	public static Vector3? GetMovementTouchPos()
 	{
 		return GetTouchPos(true);
 	}
 
+	public static Vector3? GetMovementTouchScreenPos() {
+		return GetTouchPos(true, true);
+	}
+
+	
 	public static Vector3? GetCastTouchPos()
 	{
 		return GetTouchPos(false);
 	}
 
-	private static Vector3? GetTouchPos(bool isleft)
+	public static Vector3? GetCastTouchScreenPos() {
+		return GetTouchPos(false, true);
+	}
+	
+
+	private static Vector3? GetTouchPos(bool isleft, bool isScreen = false)
 	{
 		#if UNITY_EDITOR
 		if (Input.GetMouseButton(0))
 		{	
 			var mousePos = Input.mousePosition;
-			var mouseWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
+			var mouseWorldPos = isScreen ? mousePos : Camera.main.ScreenToWorldPoint(mousePos);
 			mouseWorldPos.z = 0;
 			if (isleft)
 			{

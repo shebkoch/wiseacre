@@ -5,8 +5,9 @@ public enum Direction
 {
 	Left, Right, Down, Up
 };
-public class LevelBridge : Singleton<LevelBridge>
-{
+public class LevelBridge : Singleton<LevelBridge> {
+	public bool isDamageRecieving;
+	
 	public int manaToLevel;
 	private Direction playerDirection;
 	private bool isBridgeBuild = false;
@@ -123,8 +124,10 @@ public class LevelBridge : Singleton<LevelBridge>
 			TipsController.Instance.Clear();//TODO
 			isDoorOpen = false;
 			TeleportPlayer();
-			TrapDamage();
+			if (isDamageRecieving)
+				TrapDamage();
 			SetTraps();
+			
 		}
 
 	}
