@@ -5,39 +5,41 @@ using UnityEngine;
 public class PlayerParametersController : Singleton<PlayerParametersController> {
 	
 	[SerializeField]
-	private int hp;
-
+	private float hp;
+	[SerializeField] 
+	private float maxHp;
 	public GameObject damagePanel;
-	public int Health
+	public float Health
 	{
 		get { return hp; }
 		set {
-			if (value < hp) {
-				damagePanel.SetActive(true);
-				Invoke("DisableDamagePanel", 1.5f);
-			}
+				if (value < hp) {
+					damagePanel.SetActive(true);
+					Invoke("DisableDamagePanel", 1.5f);
+				}
 				hp = value;
-				UIController.Instance.SetHpImage(value);
+				if (hp > maxHp) hp = maxHp;
+				UIController.Instance.SetHpImage(hp/maxHp);
 				if (hp <= 0) UIController.Instance.GameOver();
-				
 			}
 		}
 
-	private int mana;
+	private float mana;
 	[SerializeField]
-	private int startMana;
-	public int Mana
+	private float startMana;
+	[SerializeField]
+	private float maxMana;
+	[SerializeField]
+	private float manaRegen;
+	public float Mana
 	{
 		get { return mana; }
 		set {
 			if (mana < value) UIController.Instance.SetAddManaImage(value-mana);
 			mana = value;
-				if (mana <= 0) {
-					mana = startMana;
-					Health--;
-				}
-			UIController.Instance.SetManaImage(mana);
-			
+			if (mana <= 0)
+				mana = 0;
+			UIController.Instance.SetManaImage(mana/maxMana);
 		}
 	}
 	private void Start() {
@@ -46,5 +48,9 @@ public class PlayerParametersController : Singleton<PlayerParametersController> 
 
 	private void DisableDamagePanel() {
 		damagePanel.SetActive(false);
+	}
+
+	private void Update() {
+		mana += manaRegen*Time.deltaTime;
 	}
 }

@@ -11,22 +11,22 @@ public class UIController : Singleton<UIController> {
 	private bool isFading;
 	[Space(10)]
 	public List<Image> hearts;
+	public Image health;
 	[Space(10)]
 	public GameObject endMenu;
 	[Space(10)]
 	public Text manaText;
+
+	public Image manaImage;
 	public Text addMana;
 	
-	public void SetHpImage(int hp) {
-		for (int i = 0; i < hearts.Count; i++) {
-			if (i < hp) hearts[i].gameObject.SetActive(true);
-			else hearts[i].gameObject.SetActive(false);
-		}
+	public void SetHpImage(float hp) {
+		health.fillAmount = hp;
 	}
-	public void SetManaImage(int mana) {
-		manaText.text = mana + "";
+	public void SetManaImage(float mana) {
+		manaImage.fillAmount = mana;
 	}
-	public void SetAddManaImage(int delta) {
+	public void SetAddManaImage(float delta) {
 		addMana.text = "+" + delta;
 		Invoke("ClearAddMana", 1f);
 	}

@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4038637275542224}
   - component: {fileID: 212492992794134968}
   - component: {fileID: 114479703140897208}
-  - component: {fileID: 114412409587055186}
   - component: {fileID: 50382759977457362}
   - component: {fileID: 61526611937280284}
   - component: {fileID: 95596154379038486}
@@ -266,26 +265,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114412409587055186
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1076193115775156}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4237162321ebd34c9ac9a0db3c3ce0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  line: {fileID: 120837095539871470}
-  lineStartColor: {r: 0.3865701, g: 0.9323245, b: 0.9558824, a: 1}
-  lineEndColor: {r: 1, g: 1, b: 1, a: 1}
-  lineAcceptColor: {r: 0.9264706, g: 0.5479895, b: 0.20436849, a: 1}
-  lineStep: 0.3
-  disappearSpeed: 6
-  manaCost: 5
-  minLoopDetection: 10
-  loopDistance: 0.5
 --- !u!114 &114479703140897208
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -299,7 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 0
   shield: {fileID: 1611988172741592}
-  shieldManaCost: 100
+  shellDamage: 10
   invincibilityTime: 1
   catchClickTime: 0.4
   speed: 6

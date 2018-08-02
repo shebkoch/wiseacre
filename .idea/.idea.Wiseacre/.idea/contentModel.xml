@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\shebkoch\.Rider2018.1\system\resharper-host\Local\Transient\ReSharperHost\v12\SolutionCaches\_Wiseacre.-1987181196.00" t="ExcludeRecursive" />
+    <e p="D:\Projects\wiseacre" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="GestureRecognizer" t="Include">
+          <e p="Example" t="Include">
+            <e p="ExampleGestureHandler.cs" t="Include" />
+          </e>
+          <e p="Scripts" t="Include">
+            <e p="DrawDetector.cs" t="Include" />
+            <e p="Editor" t="Include">
+              <e p="GesturePatternEditor.cs" t="Include" />
+            </e>
+            <e p="GestureData.cs" t="Include" />
+            <e p="GesturePattern.cs" t="Include" />
+            <e p="GesturePatternDraw.cs" t="Include" />
+            <e p="Recognizer.cs" t="Include" />
+            <e p="UILineRenderer.cs" t="Include" />
+          </e>
+          <e p="UPDATE GUIDE.txt" t="Include" />
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="Bullet.cs" t="Include" />
+          <e p="BulletTime.cs" t="Include" />
+          <e p="CameraController.cs" t="Include" />
+          <e p="EnemyLogic.cs" t="Include" />
+          <e p="Joystick.cs" t="Include" />
+          <e p="LevelBridge.cs" t="Include" />
+          <e p="LevelElements.cs" t="Include" />
+          <e p="LevelGenerator.cs" t="Include" />
+          <e p="NeuralNetwork.cs" t="Include" />
+          <e p="Player.cs" t="Include" />
+          <e p="PlayerInput.cs" t="Include" />
+          <e p="PlayerParametersController.cs" t="Include" />
+          <e p="Shell.cs" t="Include" />
+          <e p="Singleton.cs" t="Include" />
+          <e p="Spells.cs" t="Include" />
+          <e p="TipsController.cs" t="Include" />
+          <e p="UIController.cs" t="Include" />
+        </e>
+        <e p="Standard Assets" t="Include">
+          <e p="CrossPlatformInput" t="Include">
+            <e p="CrossPlatformInputGuidelines.txt" t="Include" />
+            <e p="Scripts" t="Include">
+              <e p="AxisTouchButton.cs" t="Include" />
+              <e p="ButtonHandler.cs" t="Include" />
+              <e p="CrossPlatformInputManager.cs" t="Include" />
+              <e p="InputAxisScrollbar.cs" t="Include" />
+              <e p="Joystick.cs" t="Include" />
+              <e p="MobileControlRig.cs" t="Include" />
+              <e p="PlatformSpecific" t="Include">
+                <e p="MobileInput.cs" t="Include" />
+                <e p="StandaloneInput.cs" t="Include" />
+              </e>
+              <e p="TiltInput.cs" t="Include" />
+              <e p="TouchPad.cs" t="Include" />
+              <e p="VirtualInput.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Editor" t="Include">
+            <e p="CrossPlatformInput" t="Include">
+              <e p="CrossPlatformInputInitialize.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+      <e p="Wiseacre.sln" t="IncludeFlat" />
+    </e>
+  </component>
+</project>

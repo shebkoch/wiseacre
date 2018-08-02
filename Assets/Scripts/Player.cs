@@ -31,7 +31,7 @@ public class Player : MonoBehaviour {
 	public Direction direction;
 	[Space(10)]
 	public GameObject shield;
-	public int shieldManaCost;
+	public int shellDamage;
 	public float invincibilityTime;
 	private float lastDamageTime;
 	[Space(10)]
@@ -47,7 +47,7 @@ public class Player : MonoBehaviour {
 			Destroy(collision.gameObject);
 			if (Time.time - lastDamageTime > invincibilityTime) {
 				lastDamageTime = Time.time;
-				PlayerParametersController.Instance.Mana -= shieldManaCost;
+				PlayerParametersController.Instance.Health -= shellDamage;
 				shield.GetComponent<Animator>().SetTrigger("shield");
 
 			}

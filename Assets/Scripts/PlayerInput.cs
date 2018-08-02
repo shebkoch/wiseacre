@@ -80,9 +80,11 @@ public static class PlayerInput {
 				if (inputTouch.position.x > Screen.width / 2) touch = inputTouch;
 		}
 		if (!touch.HasValue) return null;
-		var worldPos = Camera.main.ScreenToWorldPoint(touch.Value.position);
-		worldPos.z = 0;
-		return worldPos;
+
+		Vector3 touchPos = touch.Value.position;
+		var touchWorldPos = isScreen ? touchPos : Camera.main.ScreenToWorldPoint(touchPos);
+		touchPos.z = 0;
+		return touchWorldPos;
 	}
 	private static Direction GetDirection(float x, float y) {
 		if (Mathf.Abs(x) > Mathf.Abs(y))
